@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -13,7 +12,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'SOLACE Network'),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +51,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://solace.test'),
 
     /*
     |--------------------------------------------------------------------------
@@ -85,9 +84,9 @@ return [
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
     /*
-    |--------------------------------------------------------------------------
+    |-------------------------------------------------------------------------
     | Encryption Key
-    |--------------------------------------------------------------------------
+    |-------------------------------------------------------------------------
     |
     | This key is utilized by Laravel's encryption services and should be set
     | to a random, 32 character string to ensure that all encrypted values
@@ -106,9 +105,9 @@ return [
     ],
 
     /*
-    |--------------------------------------------------------------------------
+    |-------------------------------------------------------------------------
     | Maintenance Mode Driver
-    |--------------------------------------------------------------------------
+    |-------------------------------------------------------------------------
     |
     | These configuration options determine the driver used to determine and
     | manage Laravel's "maintenance mode" status. The "cache" driver will
@@ -121,6 +120,57 @@ return [
     'maintenance' => [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
+    ],
+
+    /*
+    |-------------------------------------------------------------------------
+    | Service Providers
+    |-------------------------------------------------------------------------
+    |
+    | This defines the service providers that should be loaded by your application.
+    | Service providers bootstrap various components like authentication, routing,
+    | and custom services for your application.
+    |
+    */
+
+    'providers' => [
+        /*
+         * Laravel Framework Service Providers...
+         */
+        Illuminate\Auth\AuthServiceProvider::class,
+        Illuminate\Broadcasting\BroadcastServiceProvider::class,
+        Illuminate\Bus\BusServiceProvider::class,
+        Illuminate\Cache\CacheServiceProvider::class,
+        Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
+        Illuminate\Cookie\CookieServiceProvider::class,
+        Illuminate\Database\DatabaseServiceProvider::class,
+        Illuminate\Encryption\EncryptionServiceProvider::class,
+        Illuminate\Filesystem\FilesystemServiceProvider::class,
+        Illuminate\Foundation\Providers\FoundationServiceProvider::class,
+        Illuminate\Hashing\HashServiceProvider::class,
+        Illuminate\Mail\MailServiceProvider::class,
+        Illuminate\Notifications\NotificationServiceProvider::class,
+        Illuminate\Pagination\PaginationServiceProvider::class,
+        Illuminate\Pipeline\PipelineServiceProvider::class,
+        Illuminate\Queue\QueueServiceProvider::class,
+        Illuminate\Redis\RedisServiceProvider::class,
+        Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
+        Illuminate\Session\SessionServiceProvider::class,
+        Illuminate\Translation\TranslationServiceProvider::class,
+        Illuminate\Validation\ValidationServiceProvider::class,
+        Illuminate\View\ViewServiceProvider::class,
+
+        /*
+         * Package Service Providers...
+         */
+        Laravel\Fortify\FortifyServiceProvider::class,
+        Laravel\Jetstream\JetstreamServiceProvider::class,
+
+        /*
+         * Application Service Providers...
+         */
+        App\Providers\AppServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
     ],
 
 ];

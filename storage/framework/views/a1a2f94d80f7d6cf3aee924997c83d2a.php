@@ -1,0 +1,9 @@
+<div class="flex justify-center my-8">
+    <button
+        type="button"
+        wire:click="generateHouseId"
+        class="px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition"
+    >
+        Generate New House ID
+    </button>
+</div><?php /**PATH C:\DevServer\UniServerZ\www\solace\resources\views\livewire\steps\step4.blade.php ENDPATH**/ ?>
