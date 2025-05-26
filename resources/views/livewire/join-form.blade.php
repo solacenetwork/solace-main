@@ -21,18 +21,18 @@
                                 <button
                                     type="button"
                                     wire:click="goToProgressStep({{ $i }})"
-                                    class="flex items-center justify-center w-8 h-8 rounded-full border-2 border-blue-600 bg-white/60 text-blue-600 font-bold hover:bg-blue-600 hover:text-white transition focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                    class="flex items-center justify-center w-8 h-8 rounded-full border-2 border-indigo-600 bg-white/60 text-indigo-600 font-bold hover:bg-indigo-600 hover:text-white transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                     title="Go to Step {{ $i }}"
                                 >
                                     {{ $i }}
                                 </button>
                             @else
-                                <span class="flex items-center justify-center w-8 h-8 rounded-full {{ $progressStep == $i ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600' }}">
+                                <span class="flex items-center justify-center w-8 h-8 rounded-full {{ $progressStep == $i ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-600' }}">
                                     {{ $i }}
                                 </span>
                             @endif
                             @if ($i < $progressMax)
-                                <div class="w-6 h-0.5 mx-2 rounded {{ $progressStep > $i ? 'bg-blue-600' : 'bg-gray-300' }}"></div>
+                                <div class="w-6 h-0.5 mx-2 rounded {{ $progressStep > $i ? 'bg-indigo-600' : 'bg-gray-300' }}"></div>
                             @endif
                         </li>
                     @endfor
@@ -69,76 +69,80 @@
 
         <!-- Navigation Buttons -->
         @if($currentStep <= 7)
-            <div class="mt-6 flex justify-center gap-3">
+            <div class="mt-8 flex justify-center gap-3">
                 <!-- Cancel Button (All Steps) -->
-                <flux:button
-                    color="outline"
-                    size="base"
+                <x-button
+                    type="button"
                     wire:click="cancel"
                     wire:confirm="Any form progress will be lost. Are you sure you wish to exit?"
-                    class="text-black border-black hover:bg-black hover:text-white"
+                    class="bg-gray-100 text-gray-900 border border-gray-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 >
-                    Cancel
-                </flux:button>
+                    {{ __('Cancel') }}
+                </x-button>
 
                 <!-- Clear Button (Steps 1, 3, 6) -->
                 @if(in_array($currentStep, [1, 3, 6]))
-                    <flux:button
-                        color="outline"
-                        size="base"
+                    <x-button
+                        type="button"
                         wire:click="clearForm"
                         wire:confirm="Are you sure you want to clear the form fields on this step?"
-                        class="text-black border-black hover:bg-black hover:text-white"
+                        class="bg-gray-100 text-gray-900 border border-gray-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     >
-                        Clear
-                    </flux:button>
+                        {{ __('Clear') }}
+                    </x-button>
                 @endif
 
                 <!-- Previous Button (Steps 2-7) -->
                 @if($currentStep > 1)
-                    <flux:button
-                        color="outline"
-                        size="base"
+                    <x-button
+                        type="button"
                         wire:click="previousStep"
-                        class="text-black border-black hover:bg-black hover:text-white"
+                        class="bg-gray-100 text-gray-900 border border-gray-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     >
-                        Previous
-                    </flux:button>
+                        {{ __('Previous') }}
+                    </x-button>
                 @endif
 
                 <!-- Next or Dashboard Button -->
                 @if($currentStep < 6)
-                    <flux:button
-                        color="primary"
-                        size="base"
+                    <x-button
+                        type="button"
                         wire:click="{{ $currentStep === 1 ? 'validateStep1' : 'nextStep' }}"
                         wire:loading.attr="disabled"
                         wire:target="{{ $currentStep === 1 ? 'validateStep1' : 'nextStep' }}"
-                        class="bg-blue-600 hover:bg-blue-700 text-white"
+                        class="bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     >
-                        Next
-                    </flux:button>
+                        {{ __('Next') }}
+                    </x-button>
                 @elseif($currentStep === 6)
-                    <flux:button
-                        color="primary"
-                        size="base"
+                    <x-button
+                        type="button"
                         wire:click="submit"
                         wire:confirm="Are you sure you want to submit the form?"
-                        class="bg-blue-600 hover:bg-blue-700 text-white"
+                        class="bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     >
-                        Next
-                    </flux:button>
+                        {{ __('Next') }}
+                    </x-button>
                 @elseif($currentStep === 7)
-                    <flux:button
-                        color="primary"
-                        size="base"
-                        wire:click="goToDashboard"
-                        class="bg-blue-600 hover:bg-blue-700 text-white"
+                    <x-button
+                        type="button"
+                        wire:click="$emit('redirectToDashboard')"
+                        class="bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     >
-                        Dashboard
-                    </flux:button>
+                        {{ __('Dashboard') }}
+                    </x-button>
                 @endif
             </div>
         @endif
     </div>
 </div>
+
+@push('scripts')
+<script>
+    document.addEventListener('livewire:load', function () {
+        Livewire.on('redirectToDashboard', () => {
+            window.location.href = '{{ route('dashboard') }}';
+        });
+    });
+</script>
+@endpush

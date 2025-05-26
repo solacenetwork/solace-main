@@ -1,61 +1,86 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## SOLACE Network
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+An application built on Laravel / Jetstream / Blade / Tailwind. It provides tools for users and communities to work together, track things, keep in touch, and manage things in their own houses. Logged in users have access to these tools:
 
-## About Laravel
+- SOLACE Home - manage your house with these tools
+- SOLACE Garden - manage your gardens and plants.
+- SOLACE Directory - a public directory of businesses
+- SOLACE Library - manage and access documents locally, in the cloud and remotely.
+- SOLACE Neighborhood - a private social network for local groups (geofenced)
+- SOLACE Education - learning courses, videos, books, and K-12 homeschool resources
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Long Term Goals 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- In addition to the server, build clients for different platforms (e.g. Garden app on Android or Home management on laptop). Everything can be done via web browser but, there may be more specialized apps connecting to the server via API in the future. 
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Build a custom OS (based on Linux Mint Debian Edition) which would come preinstalled with it's own Laravel server and function as a client (or node) on the network. It would come preinstalled with Laravel, PHP, MySQL, etc. 
 
-## Learning Laravel
+- Allow these nodes to connect to each other directly via P2P. If the Internet is available, it can use the SOLACE Network server to connect. Otherwise it defaults to local and forms a mesh network via customized WiFi routers. 
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Eventually it could be autonomous and not need the SOLACE Network server. The goal is to have the online server as a backup but be able to function without it. To bootstrap the network we need a way to connect users first.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Environment
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Windows 10
+- Visual Studio Code
+- Powershell (no Linux/Unix commands)
+- Laravel 12.15.0, Jetstream (Livewire, Teams)
+- Flowbite and Flowbite icons 
+- Blade UI Kit (use icons as blade components)
+- Herd 1.20.0 (free version) 
+- UniServer Zero XV (15.0.2)
+- MySQL 8.2.0 (served by UniServerZ)
+- phpMyAdmin (served on apache via UniServerZ). The free version of Herd doesn't support database management. So, I use phpMyAdmin to view and modify MySQL.
 
-## Laravel Sponsors
+Development URLS:
+- Main site: https://solace.test (port 443 from Herd)
+- phpMyAdmin: http://localhost/us_opt1/index.php (port 80 from Apache)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Developer Profile
 
-### Premium Partners
+I come from a web development background (PHP, HTML, CSS, JS) and am new to learning Laravel. This is my first big Laravel project. I use Bootstrap 5 for layout - that's why I went with Flowbite as the components align with what I am used to. I do not know Tailwind CSS or Flowbite. I'm am learning as I go. Since I'm on Windows, I can't run Linux commands. All cmd prompt recommendations should be for Windows powershell. I'm am developing locally on my laptop and occasionally checking code into my private GitHub repo to back it up. I also use GitHub desktop and mobile. 
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Goals
+- Use default Livewire / Jetstream / Laravel methods, templates and functions. We want scaffold our app from this but don't want to break core functionality
+- Try to follow best practices and Laravel guidelines when creating things (do it the Laravel way)
+- Not break our currently functioning Laravel app. (This is the 3rd iteration)
+- To be able to register users in the Laravel / Jetstream app so we can build out the site
+- Keep existing Jetstream / Fortify / Sanctum policies and use existing code for login, forgot password, etc.
 
-## Contributing
+## What we have done so far
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- installed Laravel and Jetstream
+- installed Flowbite and configured via tailwind config
+- customized the routes (web.php)
+- created a /test-flowbite route and page to see if Flowbite CSS is working
+- customized the database tables 
+- created a Livewire component (JoinForm.php)
+- created logic to manage a multipart form
+- stored data in sessions to handle page reloads
+- created a middleware to handle session length. (60 min for non-logged in users and 24 hours for logged in users)
+- used Livewire to validate client side instead of Javascript.
+- save all values user submits to array $form. on the last step we will write this to the db using Laravel / Jetstream method. For now we are just collecting and displaying it.
 
-## Code of Conduct
+## What we are currently working on
+- We created a middleware way to handle session length () but, we haven't tested it yet. 
+- We are at the point where we can add users to the db via tinker by doing this:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+<pre>
+User::create(['first_name' => 'Test', 'last_name' => 'User', 'email' => 'test@example.com', 'password' => bcrypt('password123'), 'account_type' => 'individual', 'terms' => true, 'newsletter' => false, 'is_minor' => false]);
+</pre>
 
-## Security Vulnerabilities
+- Trying to get steps 1 - 3 of the registration form working. Then, continue with steps 4-7. 
+- Primary focus is getting new Livewire component for registration finished.
+- Currently focused on getting the styling right on the individual steps.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## What we need to do next
+- Test the middleware we created at: app\Http\Responses\CustomLoginResponse.php
+- Users who are not logged in should have a secure session which lasts 60 minutes.
+- Users who are logged in should have a secure session which lasts 24 hours.
+- Work on steps 1 - 3 to make sure layout, content, and functionality is there.
 
-## License
+## Known issues
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+None.
+
+Last updated: 5/26/25

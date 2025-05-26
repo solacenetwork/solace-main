@@ -22,20 +22,20 @@
                                 <button
                                     type="button"
                                     wire:click="goToProgressStep(<?php echo e($i); ?>)"
-                                    class="flex items-center justify-center w-8 h-8 rounded-full border-2 border-blue-600 bg-white/60 text-blue-600 font-bold hover:bg-blue-600 hover:text-white transition focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                    class="flex items-center justify-center w-8 h-8 rounded-full border-2 border-indigo-600 bg-white/60 text-indigo-600 font-bold hover:bg-indigo-600 hover:text-white transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                     title="Go to Step <?php echo e($i); ?>"
                                 >
                                     <?php echo e($i); ?>
 
                                 </button>
                             <?php else: ?>
-                                <span class="flex items-center justify-center w-8 h-8 rounded-full <?php echo e($progressStep == $i ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'); ?>">
+                                <span class="flex items-center justify-center w-8 h-8 rounded-full <?php echo e($progressStep == $i ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-600'); ?>">
                                     <?php echo e($i); ?>
 
                                 </span>
                             <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                             <!--[if BLOCK]><![endif]--><?php if($i < $progressMax): ?>
-                                <div class="w-6 h-0.5 mx-2 rounded <?php echo e($progressStep > $i ? 'bg-blue-600' : 'bg-gray-300'); ?>"></div>
+                                <div class="w-6 h-0.5 mx-2 rounded <?php echo e($progressStep > $i ? 'bg-indigo-600' : 'bg-gray-300'); ?>"></div>
                             <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                         </li>
                     <?php endfor; ?><!--[if ENDBLOCK]><![endif]-->
@@ -72,76 +72,165 @@
 
         <!-- Navigation Buttons -->
         <!--[if BLOCK]><![endif]--><?php if($currentStep <= 7): ?>
-            <div class="mt-6 flex justify-center gap-3">
+            <div class="mt-8 flex justify-center gap-3">
                 <!-- Cancel Button (All Steps) -->
-                <flux:button
-                    color="outline"
-                    size="base"
-                    wire:click="cancel"
-                    wire:confirm="Any form progress will be lost. Are you sure you wish to exit?"
-                    class="text-black border-black hover:bg-black hover:text-white"
-                >
-                    Cancel
-                </flux:button>
+                <?php if (isset($component)) { $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.button','data' => ['type' => 'button','wire:click' => 'cancel','wire:confirm' => 'Any form progress will be lost. Are you sure you wish to exit?','class' => 'bg-gray-100 text-gray-900 border border-gray-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('button'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['type' => 'button','wire:click' => 'cancel','wire:confirm' => 'Any form progress will be lost. Are you sure you wish to exit?','class' => 'bg-gray-100 text-gray-900 border border-gray-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500']); ?>
+                    <?php echo e(__('Cancel')); ?>
+
+                 <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $attributes = $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $component = $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
 
                 <!-- Clear Button (Steps 1, 3, 6) -->
                 <!--[if BLOCK]><![endif]--><?php if(in_array($currentStep, [1, 3, 6])): ?>
-                    <flux:button
-                        color="outline"
-                        size="base"
-                        wire:click="clearForm"
-                        wire:confirm="Are you sure you want to clear the form fields on this step?"
-                        class="text-black border-black hover:bg-black hover:text-white"
-                    >
-                        Clear
-                    </flux:button>
+                    <?php if (isset($component)) { $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.button','data' => ['type' => 'button','wire:click' => 'clearForm','wire:confirm' => 'Are you sure you want to clear the form fields on this step?','class' => 'bg-gray-100 text-gray-900 border border-gray-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('button'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['type' => 'button','wire:click' => 'clearForm','wire:confirm' => 'Are you sure you want to clear the form fields on this step?','class' => 'bg-gray-100 text-gray-900 border border-gray-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500']); ?>
+                        <?php echo e(__('Clear')); ?>
+
+                     <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $attributes = $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $component = $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
                 <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
                 <!-- Previous Button (Steps 2-7) -->
                 <!--[if BLOCK]><![endif]--><?php if($currentStep > 1): ?>
-                    <flux:button
-                        color="outline"
-                        size="base"
-                        wire:click="previousStep"
-                        class="text-black border-black hover:bg-black hover:text-white"
-                    >
-                        Previous
-                    </flux:button>
+                    <?php if (isset($component)) { $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.button','data' => ['type' => 'button','wire:click' => 'previousStep','class' => 'bg-gray-100 text-gray-900 border border-gray-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('button'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['type' => 'button','wire:click' => 'previousStep','class' => 'bg-gray-100 text-gray-900 border border-gray-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500']); ?>
+                        <?php echo e(__('Previous')); ?>
+
+                     <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $attributes = $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $component = $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
                 <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
                 <!-- Next or Dashboard Button -->
                 <!--[if BLOCK]><![endif]--><?php if($currentStep < 6): ?>
-                    <flux:button
-                        color="primary"
-                        size="base"
-                        wire:click="<?php echo e($currentStep === 1 ? 'validateStep1' : 'nextStep'); ?>"
-                        wire:loading.attr="disabled"
-                        wire:target="<?php echo e($currentStep === 1 ? 'validateStep1' : 'nextStep'); ?>"
-                        class="bg-blue-600 hover:bg-blue-700 text-white"
-                    >
-                        Next
-                    </flux:button>
+                    <?php if (isset($component)) { $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.button','data' => ['type' => 'button','wire:click' => ''.e($currentStep === 1 ? 'validateStep1' : 'nextStep').'','wire:loading.attr' => 'disabled','wire:target' => ''.e($currentStep === 1 ? 'validateStep1' : 'nextStep').'','class' => 'bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('button'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['type' => 'button','wire:click' => ''.e($currentStep === 1 ? 'validateStep1' : 'nextStep').'','wire:loading.attr' => 'disabled','wire:target' => ''.e($currentStep === 1 ? 'validateStep1' : 'nextStep').'','class' => 'bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500']); ?>
+                        <?php echo e(__('Next')); ?>
+
+                     <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $attributes = $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $component = $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
                 <?php elseif($currentStep === 6): ?>
-                    <flux:button
-                        color="primary"
-                        size="base"
-                        wire:click="submit"
-                        wire:confirm="Are you sure you want to submit the form?"
-                        class="bg-blue-600 hover:bg-blue-700 text-white"
-                    >
-                        Next
-                    </flux:button>
+                    <?php if (isset($component)) { $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.button','data' => ['type' => 'button','wire:click' => 'submit','wire:confirm' => 'Are you sure you want to submit the form?','class' => 'bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('button'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['type' => 'button','wire:click' => 'submit','wire:confirm' => 'Are you sure you want to submit the form?','class' => 'bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500']); ?>
+                        <?php echo e(__('Next')); ?>
+
+                     <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $attributes = $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $component = $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
                 <?php elseif($currentStep === 7): ?>
-                    <flux:button
-                        color="primary"
-                        size="base"
-                        wire:click="goToDashboard"
-                        class="bg-blue-600 hover:bg-blue-700 text-white"
-                    >
-                        Dashboard
-                    </flux:button>
+                    <?php if (isset($component)) { $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.button','data' => ['type' => 'button','wire:click' => '$emit(\'redirectToDashboard\')','class' => 'bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('button'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['type' => 'button','wire:click' => '$emit(\'redirectToDashboard\')','class' => 'bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500']); ?>
+                        <?php echo e(__('Dashboard')); ?>
+
+                     <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $attributes = $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $component = $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
                 <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
             </div>
         <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
     </div>
-</div><?php /**PATH C:\DevServer\UniServerZ\www\solace\resources\views/livewire/join-form.blade.php ENDPATH**/ ?>
+</div>
+
+<?php $__env->startPush('scripts'); ?>
+<script>
+    document.addEventListener('livewire:load', function () {
+        Livewire.on('redirectToDashboard', () => {
+            window.location.href = '<?php echo e(route('dashboard')); ?>';
+        });
+    });
+</script>
+<?php $__env->stopPush(); ?><?php /**PATH C:\DevServer\UniServerZ\www\solace\resources\views/livewire/join-form.blade.php ENDPATH**/ ?>

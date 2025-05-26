@@ -21,3 +21,9 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+/storage/framework/views
+storage/logs/laravel.log
+*.log
+storage/logs/laravel.log
+*.log
+*.log
