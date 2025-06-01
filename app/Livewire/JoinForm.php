@@ -50,6 +50,7 @@ class JoinForm extends Component
     public function updatedCurrentStep($step)
     {
         if ($step === 4) {
+            \Log::info('Dispatching initializeMap event');
             $this->dispatch('initializeMap');
         }
     }

@@ -14,9 +14,30 @@ Route::get('/register', function () {
     return redirect()->route('join');
 })->name('register');
 
+// DEV USE: TEST ROUTES
+
+// Test Flowbite
 Route::get('/test-flowbite', function () {
     return view('test-flowbite');
 });
+
+// Test Google Maps
+Route::get('/test-map', function () {
+    // Use query parameters if present, otherwise fall back to defaults
+    $lat = request('lat', 38.624691);
+    $lng = request('lng', -90.184776);
+    $address = request('address', '123 Main St, Springfield, IL 62704');
+
+    // Remove quotes if they exist (optional, for convenience)
+    $address = trim($address, '"');
+
+    return view('test-map', [
+        'lat' => $lat,
+        'lng' => $lng,
+        'address' => $address,
+    ]);
+});
+
 
 // Authenticated routes
 Route::middleware([
