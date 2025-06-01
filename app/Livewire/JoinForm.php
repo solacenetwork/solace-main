@@ -18,7 +18,7 @@ class JoinForm extends Component
     public $maxStep = 7;
     public $showPassword = false;
     public $showPasswordConfirm = false;
-    public $showFormData = true; // DEV USE
+    public $showFormData = true; // DEV USE (used on step 7)
 
     public $form = [
         'email' => '',
@@ -38,21 +38,26 @@ class JoinForm extends Component
         'is_minor' => false,
         'hid' => '',
         'nid' => '',
-        'nlabel' => 'Downtown', // Hardcoded
-        'geometry' => 'POLYGON((0 0, 1 1, 1 0, 0 0))', // Hardcoded
+        'nlabel' => '',
+        'geometry' => '',
         'nickname' => '',
         'avatar' => null,
         'terms' => false,
-        'lat' => 37.7749, // Hardcoded
-        'lng' => -122.4194, // Hardcoded
+        'lat' => '',
+        'lng' => '',
     ];
+
+    public function updatedCurrentStep($step)
+    {
+        if ($step === 4) {
+            $this->dispatch('initializeMap');
+        }
+    }
 
     public function mount()
     {
-        \Log::debug("Mounting JoinForm, checking session");
         if (Session::has('join_form_state')) {
             $state = Session::get('join_form_state');
-            \Log::info("Session state found:", ['state' => $state]);
             $this->currentStep = $state['currentStep'] ?? 1;
             $this->form = array_merge($this->form, $state['form'] ?? []);
         } else {
@@ -64,11 +69,11 @@ class JoinForm extends Component
     public function getStepMessageProperty()
     {
         return match ($this->currentStep) {
-            1 => 'create login info',
+            1 => 'create your login info',
             2 => 'select account type',
-            3 => 'enter personal info',
-            4 => 'house location',
-            5 => 'neighborhood details',
+            3 => 'enter your personal info',
+            4 => 'confirm house location',
+            5 => 'set up neighborhood details',
             6 => 'choose nickname and avatar',
             7 => $this->showFormData ? 'Form Data Preview' : 'Thank you for registering!',
             default => 'unknown step',
@@ -94,7 +99,7 @@ class JoinForm extends Component
                 'form.city' => 'required|string|max:255',
                 'form.state' => 'required|string|max:2',
                 'form.zip' => 'required|string|regex:/^\d{5}(-\d{4})?$/',
-                'form.phone' => 'nullable|string|regex:/^\+?\d{10,15}$/',
+                'form.phone' => 'nullable|string',
                 'form.dob' => 'required|date|before:today',
             ],
             4 => [], // No validation
@@ -139,13 +144,12 @@ class JoinForm extends Component
         'form.avatar.image' => 'The avatar must be an image.',
         'form.avatar.mimes' => 'The avatar must be a PNG, JPG, or GIF file.',
         'form.avatar.max' => 'The avatar file size cannot exceed 2MB.',
-        'form.terms.required' => 'You must agree to the Terms and Conditions.',
-        'form.terms.accepted' => 'You must agree to the Terms and Conditions.',
+        'form.terms.required' => 'Required field.',
+        'form.terms.accepted' => 'Required field.',
     ];
 
     public function updated($propertyName)
     {
-        \Log::debug("Validating property: $propertyName on step {$this->currentStep}");
         if ($this->currentStep === 1 && $propertyName === 'form.password_confirmation' && !empty($this->form['password_confirmation'])) {
             $this->validateOnly('form.password', [
                 'form.password' => 'required|min:8|confirmed',
@@ -173,38 +177,38 @@ class JoinForm extends Component
         // Attempt login using Fortify
         if (Auth::attempt([Fortify::username() => $this->form['email'], 'password' => $this->form['password']])) {
             $user = Auth::user();
-            \Log::info("Existing user logged in via join form", ['email' => $this->form['email']]);
             Session::forget('join_form_state');
             return redirect()->route('dashboard');
         }
 
         // If credentials fail, check if email exists
         if (User::where('email', $this->form['email'])->exists()) {
-            \Log::info("Email exists but password incorrect, redirecting to password reset", ['email' => $this->form['email']]);
             Session::forget('join_form_state');
             return redirect()->route('password.request')->with('email', $this->form['email']);
         }
 
         // New user, proceed to step 2
-        \Log::info("New user, proceeding to step 2", ['email' => $this->form['email']]);
         $this->currentStep = 2;
         $this->saveStateToSession();
     }
 
     public function setAccountType($type)
     {
-        \Log::debug("Starting setAccountType: $type");
         $start = microtime(true);
         $this->form['account_type'] = $type;
         $this->validate($this->rulesForStep(2), $this->messages);
         $this->currentStep = 3;
         $this->saveStateToSession();
-        \Log::debug("setAccountType completed in " . (microtime(true) - $start) . " seconds");
     }
 
     public function nextStep()
     {
-        // Skip validation for steps 4 and 5
+        // Special handling for Step 3 (sanitize phone input)
+        if ($this->currentStep === 3 && !empty($this->form['phone'])) {
+            $cleanedPhone = preg_replace('/\D/', '', $this->form['phone']); // Remove non-numeric chars
+            $this->form['phone'] = substr($cleanedPhone, 0, 10);            // Limit to 10 digits
+        }
+        // DEV USE: Skip validation for steps 4 and 5
         if (!in_array($this->currentStep, [4, 5])) {
             $this->validate($this->rulesForStep($this->currentStep), $this->messages);
         }
@@ -248,7 +252,7 @@ class JoinForm extends Component
         // Restore hardcoded values
         $this->form['lat'] = 37.7749;
         $this->form['lng'] = -122.4194;
-        $this->form['nlabel'] = 'Downtown';
+        $this->form['nlabel'] = 'SOLACE One';
         $this->form['geometry'] = 'POLYGON((0 0, 1 1, 1 0, 0 0))';
         $this->resetValidation();
         $this->saveStateToSession();
@@ -263,7 +267,7 @@ class JoinForm extends Component
         $this->form['avatar'] = null;
         $this->form['lat'] = 37.7749;
         $this->form['lng'] = -122.4194;
-        $this->form['nlabel'] = 'Downtown';
+        $this->form['nlabel'] = 'SOLACE One';
         $this->form['geometry'] = 'POLYGON((0 0, 1 1, 1 0, 0 0))';
         $this->currentStep = 1;
         $this->resetValidation();

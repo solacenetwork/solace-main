@@ -7,6 +7,7 @@
             id="email-input"
             type="email"
             name="email"
+            tabindex="1"
             required
             autofocus
             autocomplete="email"
@@ -27,6 +28,7 @@
                 id="password-input"
                 type="{{ $showPassword ? 'text' : 'password' }}"
                 name="password"
+                tabindex="2"
                 required
                 autocomplete="new-password"
                 placeholder="********"
@@ -37,6 +39,7 @@
                 wire:click="$toggle('showPassword')"
                 aria-label="Show/Hide Password"
                 class="ms-1 mt-1 rounded-l-none"
+                tabindex="4"
             >
                 @if($showPassword)
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -64,6 +67,7 @@
                 id="password-confirm-input"
                 type="{{ $showPasswordConfirm ? 'text' : 'password' }}"
                 name="password_confirmation"
+                tabindex="3"
                 required
                 autocomplete="new-password"
                 placeholder="********"
@@ -74,6 +78,7 @@
                 wire:click="$toggle('showPasswordConfirm')"
                 aria-label="Show/Hide Password Confirmation"
                 class="ms-1 mt-1 rounded-l-none"
+                tabindex="5"
             >
                 @if($showPasswordConfirm)
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

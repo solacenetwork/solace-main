@@ -1,6 +1,6 @@
 ## SOLACE Network
 
-An application built on Laravel / Jetstream / Blade / Tailwind. It provides tools for users and communities to work together, track things, keep in touch, and manage things in their own houses. Logged in users have access to these tools:
+An application built on Laravel / Jetstream / Blade / Tailwind CSS. It provides tools for users and communities to work together, track things, keep in touch, and manage things in their own houses. Logged in users have access to these tools:
 
 - SOLACE Home - manage your house with these tools
 - SOLACE Garden - manage your gardens and plants.
@@ -23,18 +23,23 @@ An application built on Laravel / Jetstream / Blade / Tailwind. It provides tool
 
 - Windows 10
 - Visual Studio Code
+- GitHub (online) and GitHub Desktop
 - Powershell (no Linux/Unix commands)
 - Laravel 12.15.0, Jetstream (Livewire, Teams)
 - Flowbite and Flowbite icons 
-- Blade UI Kit (use icons as blade components)
-- Herd 1.20.0 (free version) 
-- UniServer Zero XV (15.0.2)
-- MySQL 8.2.0 (served by UniServerZ)
-- phpMyAdmin (served on apache via UniServerZ). The free version of Herd doesn't support database management. So, I use phpMyAdmin to view and modify MySQL.
+- Blade UI Kit (using icons as blade components with <x-svg>)
+- Herd 1.20.2 (free version) - for main Laravel app
+- UniServer Zero XV (15.0.2) - for phpMyAdmin
+- MySQL 8.2.0 (served by Apache and managed by phpMyAdmin)
+- phpMyAdmin (served on Apache via UniServerZ). 
 
-Development URLS:
-- Main site: https://solace.test (port 443 from Herd)
-- phpMyAdmin: http://localhost/us_opt1/index.php (port 80 from Apache)
+The free version of Herd doesn't support database management. So, I use phpMyAdmin to view and modify the MySQL database. I use Herd to host the Laravel app only. No db integration with Herd.
+
+**Development URLS:**
+
+- Main site: https://solace.test (port 443 served by Nginx and Herd)
+- phpMyAdmin: http://localhost/us_opt1/index.php (port 80 served by Apache)
+- MySQL: runs on default port 3306. For development on localhost, username/password are set to 'root'. 
 
 ## Developer Profile
 
@@ -46,6 +51,11 @@ I come from a web development background (PHP, HTML, CSS, JS) and am new to lear
 - Not break our currently functioning Laravel app. (This is the 3rd iteration)
 - To be able to register users in the Laravel / Jetstream app so we can build out the site
 - Keep existing Jetstream / Fortify / Sanctum policies and use existing code for login, forgot password, etc.
+
+I have included code for these 2 default files as a reference. register.blade.php is not currently used in my project. The /register and /join routes both load my new Livewire component (JoinForm.php) instead:
+
+'resources\views\auth\login.blade.php',
+'resources\views\auth\register.blade.php'
 
 ## What we have done so far
 
@@ -60,27 +70,64 @@ I come from a web development background (PHP, HTML, CSS, JS) and am new to lear
 - created a middleware to handle session length. (60 min for non-logged in users and 24 hours for logged in users)
 - used Livewire to validate client side instead of Javascript.
 - save all values user submits to array $form. on the last step we will write this to the db using Laravel / Jetstream method. For now we are just collecting and displaying it.
+- Fixed the form so that user can advance through all 6 steps. 
+- Fixed bugs and got step 7 (display data) working properly. 
+- generate API key on Google Cloud site
+- set up Laravel/Jetstream to use Google Maps API (.env and config/services.php)
+- Started working on Google Maps API app for step4 and step5
+- in JoinForm.php we added a var named $showFormData. If true, it displays output of resources\views\partials\form-data.blade.php otherwise, it shows resources\views\partials\success.blade.php. 
+- step 4 map uses address info from step 3 to geolocate the address and get latitude/longitude
+- step 5 form updated to include "Label" field (nlabel) using <x-input> tags
+- On step 7, we have the output of $form showing the array like this:
+
+Form Data Preview
+
+Array
+(
+    [email] => hahanospam@gmail.com
+    [password] => testtest
+    [password_confirmation] => testtest
+    [account_type] => single
+    [first_name] => Joe
+    [last_name] => Tester
+    [address1] => 123 Main St.
+    [address2] => Apt. 4
+    [city] => Anywhere
+    [state] => CA
+    [zip] => 12345
+    [phone] => 1232123456
+    [dob] => 1985-02-12
+    [newsletter] => 
+    [is_minor] => 
+    [hid] => 
+    [nid] => 
+    [nlabel] => SOLACE One
+    [geometry] => POLYGON((0 0, 1 1, 1 0, 0 0))
+    [nickname] => Joe Tester
+    [avatar] => 
+    [terms] => 1
+    [lat] => 37.7749
+    [lng] => -122.4194
+)
+
+We are using resources\views\partials\form-data.blade.php for Dev Use. We'll remove this later and just have it display success.blade.php after the user successfully submits the form. I'll keep the form output code for debugging purposes in the future. We'll set value to false so it always shows success.blade.php instead.
 
 ## What we are currently working on
-- We created a middleware way to handle session length () but, we haven't tested it yet. 
-- We are at the point where we can add users to the db via tinker by doing this:
-
-<pre>
-User::create(['first_name' => 'Test', 'last_name' => 'User', 'email' => 'test@example.com', 'password' => bcrypt('password123'), 'account_type' => 'individual', 'terms' => true, 'newsletter' => false, 'is_minor' => false]);
-</pre>
-
-- Trying to get steps 1 - 3 of the registration form working. Then, continue with steps 4-7. 
-- Primary focus is getting new Livewire component for registration finished.
-- Currently focused on getting the styling right on the individual steps.
+ 
+- Getting Google Map component working in steps 4 and 5.
+- Map component should accept lat/lng and full address as inputs to display
+- We should be smart about Google API lookups and only do once and store in $form to avoid Google Cloud overage fees (e.g. doing hundreds of lookups and not saving it)
 
 ## What we need to do next
-- Test the middleware we created at: app\Http\Responses\CustomLoginResponse.php
-- Users who are not logged in should have a secure session which lasts 60 minutes.
-- Users who are logged in should have a secure session which lasts 24 hours.
-- Work on steps 1 - 3 to make sure layout, content, and functionality is there.
+- Troubleshoot errors and styling issues on our Livewire component registration form (steps 4 and 5)
+
 
 ## Known issues
 
-None.
+On steps 4 and 5 (step4.blade.php and step5.blade.php) I am having an issue with the loading of the Google Map. The expected behavior is that the loading spinner shows until the map is loaded. Then, it hides the spinner and shows the map. Currently nothing is displayed.
 
-Last updated: 5/26/25
+Step 4 gets the address from step 3 (address1, address2, city, state, zip) and does a lookup on the Google Maps API. It then gets longitude/latitude from Google, saves them to $form, and shows them on the 
+
+
+
+Last updated: 5/31/25 at 8:45 PM.

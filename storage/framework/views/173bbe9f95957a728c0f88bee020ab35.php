@@ -27,6 +27,7 @@
 
         <?php echo \Livewire\Mechanisms\FrontendAssets\FrontendAssets::scripts(); ?>
 
+        <?php echo $__env->yieldPushContent('scripts'); ?>
     </body>
 </html>
 <?php /**PATH C:\DevServer\UniServerZ\www\solace\resources\views/layouts/guest.blade.php ENDPATH**/ ?>

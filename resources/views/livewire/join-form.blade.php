@@ -1,48 +1,52 @@
 <div class="container mx-auto px-4 py-8">
-    
-    <h1 class="text-5xl mb-4 font-bold text-center">Join SOLACE Network</h1>
 
-    <!-- Progress Meter -->
-    @php
-        $progressStep = $currentStep;
-        $progressMax = 6; // Show steps 1-6
-    @endphp
-
-    <div class="mb-6 flex justify-center">
-        <div class="max-w-md mx-auto border-2 border-black rounded-lg p-4 bg-white">
-            <div class="text-center mb-3 text-gray-700 font-semibold">
-                Step {{ $progressStep <= $progressMax ? $progressStep : $progressMax }} of {{ $progressMax }}: {{ $this->stepMessage }}
-            </div>
-            <div class="mt-3">
-                <ol class="flex items-center w-full text-sm font-medium text-center text-gray-500 sm:text-base">
-                    @for ($i = 1; $i <= $progressMax; $i++)
-                        <li class="flex items-center">
-                            @if ($progressStep > $i)
-                                <button
-                                    type="button"
-                                    wire:click="goToProgressStep({{ $i }})"
-                                    class="flex items-center justify-center w-8 h-8 rounded-full border-2 border-indigo-600 bg-white/60 text-indigo-600 font-bold hover:bg-indigo-600 hover:text-white transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                    title="Go to Step {{ $i }}"
-                                >
-                                    {{ $i }}
-                                </button>
-                            @else
-                                <span class="flex items-center justify-center w-8 h-8 rounded-full {{ $progressStep == $i ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-600' }}">
-                                    {{ $i }}
-                                </span>
-                            @endif
-                            @if ($i < $progressMax)
-                                <div class="w-6 h-0.5 mx-2 rounded {{ $progressStep > $i ? 'bg-indigo-600' : 'bg-gray-300' }}"></div>
-                            @endif
-                        </li>
-                    @endfor
-                </ol>
+    {{-- Don't show progress meter or title on step 7  --}}
+    @if($currentStep < 7)
+        <h1 class="text-5xl mt-2 mb-5 font-bold text-center">Join SOLACE Network</h1>
+        <!-- Progress Meter -->
+        @php
+            $progressStep = $currentStep;
+            $progressMax = 6; // Show only steps 1-6 on meter
+        @endphp
+        <div class="mb-6 mt-4 flex justify-center">
+            <div class="max-w-md mx-auto border-2 border-black rounded-lg p-4 bg-white">
+                <div class="text-center mb-3 text-gray-700 font-semibold">
+                    Step {{ $progressStep <= $progressMax ? $progressStep : $progressMax }} of {{ $progressMax }}: {{ $this->stepMessage }}
+                </div>
+                <div class="mt-3">
+                    <ol class="flex items-center w-full text-sm font-medium text-center text-gray-500 sm:text-base">
+                        @for ($i = 1; $i <= $progressMax; $i++)
+                            <li class="flex items-center">
+                                @if ($progressStep > $i)
+                                    <button
+                                        type="button"
+                                        wire:click="goToProgressStep({{ $i }})"
+                                        class="flex items-center justify-center w-8 h-8 rounded-full border-2 border-indigo-600 bg-white/60 text-indigo-600 font-bold hover:bg-indigo-600 hover:text-white transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                        title="Go to Step {{ $i }}"
+                                    >
+                                        {{ $i }}
+                                    </button>
+                                @else
+                                    <span class="flex items-center justify-center w-8 h-8 rounded-full {{ $progressStep == $i ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-600' }}">
+                                        {{ $i }}
+                                    </span>
+                                @endif
+                                @if ($i < $progressMax)
+                                    <div class="w-6 h-0.5 mx-2 rounded {{ $progressStep > $i ? 'bg-indigo-600' : 'bg-gray-300' }}"></div>
+                                @endif
+                            </li>
+                        @endfor
+                    </ol>
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 
     <!-- Form Content -->
+    @if(!in_array($currentStep, [4, 5]))
     <div class="max-w-lg mx-auto bg-white p-8 rounded-lg border-2 border-black shadow-md">
+    @endif
+
         @switch($currentStep)
             @case(1)
                 @include('livewire.steps.step1')
@@ -70,6 +74,7 @@
         <!-- Navigation Buttons -->
         @if($currentStep <= 7)
             <div class="mt-8 flex justify-center gap-3">
+                
                 <!-- Cancel Button (All Steps) -->
                 <x-button
                     type="button"
@@ -94,34 +99,53 @@
 
                 <!-- Previous Button (Steps 2-7) -->
                 @if($currentStep > 1)
-                    <x-button
-                        type="button"
-                        wire:click="previousStep"
-                        class="bg-gray-100 text-gray-900 border border-gray-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    >
-                        {{ __('Previous') }}
-                    </x-button>
+                    @if($currentStep === 4)
+                        <x-button
+                            type="button"
+                            wire:click="previousStep"
+                            class="bg-gray-100 text-gray-900 border border-gray-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        >
+                            No, Not My Address
+                        </x-button>
+                    @else
+                        <x-button
+                            type="button"
+                            wire:click="previousStep"
+                            class="bg-gray-100 text-gray-900 border border-gray-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        >
+                            {{ __('Previous') }}
+                        </x-button>
+                    @endif
                 @endif
 
                 <!-- Next or Dashboard Button -->
                 @if($currentStep < 6)
-                    <x-button
-                        type="button"
-                        wire:click="{{ $currentStep === 1 ? 'validateStep1' : 'nextStep' }}"
-                        wire:loading.attr="disabled"
-                        wire:target="{{ $currentStep === 1 ? 'validateStep1' : 'nextStep' }}"
-                        class="bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    >
-                        {{ __('Next') }}
-                    </x-button>
+                    @if($currentStep === 4)
+                        <x-button
+                            type="button"
+                            wire:click="nextStep"
+                            class="bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        >
+                            Yes, It's My Address
+                        </x-button>
+                    @else
+                        <x-button
+                            type="button"
+                            wire:click="{{ $currentStep === 1 ? 'validateStep1' : 'nextStep' }}"
+                            wire:loading.attr="disabled"
+                            wire:target="{{ $currentStep === 1 ? 'validateStep1' : 'nextStep' }}"
+                            class="bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        >
+                            {{ __('Next') }}
+                        </x-button>
+                    @endif
                 @elseif($currentStep === 6)
                     <x-button
                         type="button"
                         wire:click="submit"
-                        wire:confirm="Are you sure you want to submit the form?"
                         class="bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     >
-                        {{ __('Next') }}
+                        {{ __('Submit') }}
                     </x-button>
                 @elseif($currentStep === 7)
                     <x-button
@@ -132,9 +156,14 @@
                         {{ __('Dashboard') }}
                     </x-button>
                 @endif
+
             </div>
         @endif
-    </div>
+
+    @if(!in_array($currentStep, [4, 5]))
+    </div> <!-- Close wrapper for steps 1, 2, 3, 6 -->
+    @endif
+
 </div>
 
 @push('scripts')
@@ -144,5 +173,66 @@
             window.location.href = '{{ route('dashboard') }}';
         });
     });
+
+    document.addEventListener("livewire:load", function () {
+        Livewire.on("initializeMap", () => {
+            console.log("Step 4 detected. Initializing map...");
+            loadGoogleMaps();
+        });
+    });
+
+    function loadGoogleMaps() {
+        if (typeof google === "undefined" || !google.maps) {
+            console.log("Google Maps API not available yet. Retrying in 500ms...");
+            setTimeout(loadGoogleMaps, 500);
+        } else {
+            console.log("Google Maps API loaded successfully. Initializing map...");
+            document.getElementById("map").innerHTML = ""; // Clear previous map instance
+            initMap();
+        }
+    }
+
+    function initMap() {
+        console.log("Attempting to initialize Google Maps...");
+        
+        const mapElement = document.getElementById("map");
+        if (!mapElement) {
+            console.error("Map element not found!");
+            return;
+        }
+
+        document.getElementById("map-loader").style.display = "flex";
+
+        const address = "{{ $form['address1'] }}, {{ $form['address2'] }}, {{ $form['city'] }}, {{ $form['state'] }} {{ $form['zip'] }}";
+        const geocoder = new google.maps.Geocoder();
+        const map = new google.maps.Map(mapElement, {
+            zoom: 15,
+            center: { lat: 38.624691, lng: -90.184776 },
+        });
+
+        google.maps.event.addListenerOnce(map, 'tilesloaded', function() {
+            console.log("Map tiles loaded successfully.");
+            document.getElementById("map-loader").style.display = "none"; // Hide spinner
+        });
+
+        geocoder.geocode({ address: address }, function(results, status) {
+            if (status === "OK") {
+                console.log("Geocode successful. Coordinates: ", results[0].geometry.location.lat(), results[0].geometry.location.lng());
+                map.panTo(results[0].geometry.location);
+                map.setZoom(19);
+
+                new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location,
+                    title: "Your House",
+                });
+
+                document.getElementById("lat").value = results[0].geometry.location.lat();
+                document.getElementById("lng").value = results[0].geometry.location.lng();
+            } else {
+                console.error("Geocode failed: " + status);
+            }
+        });
+    }
 </script>
 @endpush

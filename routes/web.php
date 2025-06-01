@@ -29,3 +29,21 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::view('/home', 'home')->name('home');
+    Route::view('/education', 'education')->name('education');
+    Route::view('/garden', 'garden')->name('garden');
+    Route::view('/library', 'library')->name('library');
+    Route::view('/directory', 'directory')->name('directory');
+    Route::view('/neighborhood', 'neighborhood')->name('neighborhood');
+    Route::view('/wiki', 'wiki')->name('wiki');
+});
+
+Route::get('/terms', function () {
+    return view('terms');
+});
+
+Route::get('/policy', function () {
+    return view('policy');
+});

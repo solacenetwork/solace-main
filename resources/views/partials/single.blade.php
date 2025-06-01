@@ -9,6 +9,7 @@
                 class="block mt-1 w-full"
                 type="text"
                 required
+                autofocus
                 autocomplete="given-name"
                 placeholder="First Name"
             />
@@ -163,7 +164,7 @@
                 class="block mt-1 w-full"
                 type="text"
                 autocomplete="tel"
-                placeholder="1 (123) 456-7890"
+                placeholder=""
             />
             @error('form.phone') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
         </div>
